@@ -1,0 +1,350 @@
+/* ================================================================
+   GAMES — games.css
+   Shared overlay, HUD, CRT layer, and D-pad for all mini-games.
+   Each game sets its own --game-bg, --game-fg, --game-accent vars.
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ── DEFAULTS ─────────────────────────────────────────────────── */
+.game-overlay {
+  --game-bg:     #0e0c0a;
+  --game-fg:     #b89d6e;
+  --game-fg-dim: rgba(184,157,110,0.45);
+  --game-accent: #d4462a;
+  --game-head:   #e8d4a4;
+  --game-border: rgba(184,157,110,0.18);
+}
+
+/* ── OVERLAY ─────────────────────────────────────────────────── */
+.game-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9600;
+  background: var(--game-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  overflow: hidden;
+}
+
+.game-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.game-open {
+  overflow: hidden !important;
+}
+
+/* ── HUD ─────────────────────────────────────────────────────── */
+.game-hud {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;   /* content sits at bottom of HUD, away from CRT corner */
+  justify-content: space-between;
+  min-height: 104px;       /* pushes content down past CRT barrel top clip zone */
+  padding: 0 104px 14px;
+  border-bottom: none;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .game-hud { padding: 0 80px 14px; }
+}
+
+.game-hud-scores {
+  display: flex;
+  gap: 28px;
+}
+
+.game-score-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.game-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--game-fg-dim);
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.game-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: var(--game-fg);
+  line-height: 1;
+}
+
+.game-title-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--game-fg);
+  letter-spacing: 0.2em;
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  top: auto;
+  transform: translateX(-50%);
+}
+
+.game-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-pause-btn,
+.game-close {
+  background: none;
+  border: 1px solid var(--game-border);
+  color: var(--game-fg);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.game-pause-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+.game-close { font-size: 14px; }
+
+.game-pause-btn:hover,
+.game-close:hover {
+  border-color: var(--game-fg);
+  color: var(--game-head);
+  background: rgba(255,255,255,0.04);
+}
+
+/* ── GAME BODY — flex row wrapping side btns + canvas ────────── */
+.game-body {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0 64px 64px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* side buttons provide horizontal clearance on tablet */
+  .game-body { padding: 0 0 64px; }
+}
+
+/* ── CANVAS WRAPPER ──────────────────────────────────────────── */
+.game-canvas-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(96,165,250,0.15);
+}
+
+.game-canvas-wrap canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* scanlines over canvas only */
+.game-canvas-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.10) 2px,
+    rgba(0,0,0,0.10) 4px
+  );
+}
+
+/* ── PONG SIDE BUTTONS (touch devices only) ─────────────────── */
+.pong-side-btns {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 80px;
+}
+
+@media (pointer: coarse) and (min-width: 768px) {
+  .pong-side-btns { display: flex; }
+}
+
+/* Remove side padding when side buttons are present (touch ≥768px) */
+@media (pointer: coarse) and (min-width: 1024px) {
+  .game-body { padding: 0 0 64px; }
+}
+
+/* Cursor hidden inside game overlay — all devices, all games */
+.game-overlay.is-open { cursor: none; }
+
+/* Custom cursor hidden when hovering over game canvas area */
+body.game-canvas-hover .cursor { opacity: 0 !important; }
+
+/* Cursor hidden during game on touch devices */
+@media (pointer: coarse) {
+  body.game-open .cursor { display: none !important; }
+}
+
+/* Hide UFO cursor + tractor beam while any game is open (contact page) */
+body.game-open .ufo-cursor,
+body.game-open .ct-beam-cone { display: none !important; }
+
+.pong-side-btn {
+  width: 60px;
+  height: 80px;
+  background: rgba(96,165,250,0.04);
+  border: 1px solid rgba(96,165,250,0.18);
+  color: rgba(96,165,250,0.75);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: background 0.08s, border-color 0.08s, color 0.08s;
+  box-sizing: border-box;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.pong-side-btn:active,
+.pong-side-btn.is-pressed {
+  background: rgba(96,165,250,0.15);
+  border-color: rgba(96,165,250,0.60);
+  color: #fff;
+}
+
+/* ── LONG PRESS HINT ─────────────────────────────────────────── */
+.nav-icons.press-active::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(184,157,110,0.6);
+  animation: press-ring 3s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes press-ring {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+
+/* ── BLINK ANIMATION ─────────────────────────────────────────── */
+@keyframes game-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.game-blink {
+  animation: game-blink 1s step-end infinite;
+}
+
+/* ── PONG HUD SCORES ─────────────────────────────────────────── */
+.pong-hud-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pong-score-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 22px;
+  color: var(--game-fg);
+  line-height: 1;
+}
+
+.pong-score-lbl {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--game-fg-dim);
+  letter-spacing: 0.10em;
+  line-height: 1;
+}
+
+/* ── PONG MODE SELECT OVERLAY ────────────────────────────────── */
+.pong-mode-select {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  background: rgba(6,12,26,0.92);
+}
+
+.pong-mode-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.18em;
+  margin: 0;
+}
+
+.pong-mode-options {
+  display: flex;
+  gap: 16px;
+}
+
+.pong-mode-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  color: rgba(96,165,250,0.65);
+  background: rgba(96,165,250,0.04);
+  border: 1px solid rgba(96,165,250,0.22);
+  padding: 18px 22px;
+  cursor: pointer;
+  min-width: 88px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pong-mode-btn:hover,
+.pong-mode-btn.is-selected {
+  background: rgba(96,165,250,0.14);
+  border-color: rgba(96,165,250,0.70);
+  color: #fff;
+}
+
+.pong-mode-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: rgba(96,165,250,0.55);
+  letter-spacing: 0.08em;
+  margin: 0;
+}

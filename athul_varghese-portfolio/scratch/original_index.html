@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Athul Varghese Joby | Cybersecurity Specialist Portfolio</title>
+  <meta name="description" content="Professional portfolio of Athul Varghese Joby. Cybersecurity specialist focusing on infrastructure auditing, penetration testing, and security systems.">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Shifting gradient background is handled via CSS on body::before -->
+  <!-- Antigravity floating particles canvas backdrop -->
+  <canvas id="antigravity-canvas"></canvas>
+
+  <!-- Custom trailing cursor glow sphere -->
+  <div class="cursor-trailer"></div>
+
+  <!-- FIXED VERTICAL SIDEBAR NAVIGATION -->
+  <nav class="sidebar-nav">
+    <div class="sidebar-brand">
+      <div class="brand-dot"></div>
+    </div>
+    <div class="sidebar-items">
+      <a href="#home" class="sidebar-item active" title="Home">
+        <i class="fa-solid fa-house"></i>
+      </a>
+      <a href="#about" class="sidebar-item" title="Overview">
+        <i class="fa-solid fa-user"></i>
+      </a>
+      <a href="#skills" class="sidebar-item" title="Skills">
+        <i class="fa-solid fa-layer-group"></i>
+      </a>
+      <a href="#projects" class="sidebar-item" title="Projects">
+        <i class="fa-solid fa-code"></i>
+      </a>
+      <a href="#experience" class="sidebar-item" title="Experience">
+        <i class="fa-solid fa-briefcase"></i>
+      </a>
+      <a href="#certs" class="sidebar-item" title="Certifications">
+        <i class="fa-solid fa-award"></i>
+      </a>
+      <a href="#contact" class="sidebar-item" title="Contact">
+        <i class="fa-solid fa-envelope"></i>
+      </a>
+    </div>
+  </nav>
+
+  <!-- PING INDICATOR (STAYS ON SCREEN OR CORNER) -->
+  <div class="nav-ping-fixed">
+    <span class="ping-indicator"></span>
+    <span id="ping-value">12ms</span>
+  </div>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="main-content-layout">
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-section">
+      <div class="hero-glass-container">
+        
+        <div class="hero-avatar-wrapper">
+          <div class="glowing-ring"></div>
+          <img src="avatar-nobg.png" alt="Athul Varghese Joby" class="hero-avatar">
+        </div>
+
+        <div class="hero-text-container">
+          <div class="hero-badge">
+            <span class="ping-indicator"></span> Secure Systems Auditor // Security Consultant
+          </div>
+          
+          <h1 class="hero-title">
+            Hi, I'm <span class="gradient-text">Athul Varghese</span>
+          </h1>
+          
+          <h2 class="hero-typed-role font-mono">
+            I'm a <span id="typed-text">Cybersecurity Specialist</span><span class="typed-cursor">|</span>
+          </h2>
+          
+          <p class="hero-subtitle">
+            Specializing in web application vulnerability assessments, OWASP compliance auditing, and CCNA network security configuration. Securing infrastructure, defending data assets.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#contact" class="btn btn-secondary">Establish Link</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 01: SYSTEM OVERVIEW -->
+    <section id="about" class="split-section">
+      <aside class="sticky-aside">
+        <span class="section-number">01 // OVERVIEW</span>
+        <h2 class="section-title">Profile Log</h2>
+        <div class="section-decor"></div>
+      </aside>
+
+      <div class="content-aside">
+        <div class="about-layout-split">
+          <div class="about-text-panel">
+            <div class="reveal-text-container">
+              <p class="reveal-paragraph">
+                Cyber Security student pursuing a Bachelor of Computer Applications (BCA) in Cyber Security at Kristu Jayanti College, Bengaluru (Expected Graduation 2027). Hands-on experience in web application security testing, vulnerability assessment, Linux administration, and network security. Skilled in identifying security vulnerabilities through practical labs on PortSwigger Web Security Academy and TryHackMe. Familiar with Kali Linux, Burp Suite, Nmap, and web security concepts including SQL Injection, XSS, Path Traversal, SSRF, and Authentication vulnerabilities.
+              </p>
+            </div>
+
+            <div class="spec-grid">
+              <div class="spec-item">
+                <span class="spec-lbl">ACADEMIC PATH</span>
+                <span class="spec-val">BCA Cybersecurity (5th Semester)</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-lbl">EXPECTED GRADUATION</span>
+                <span class="spec-val">May 2027</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-lbl">OPERATIONAL ENVIRONMENTS</span>
+                <span class="spec-val">Linux / Windows Server Environments</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-lbl">GRID COORDINATES</span>
+                <span class="spec-val">Kannur, Kerala, India</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="about-image-panel">
+            <div class="glass-card profile-image-card accent-hover">
+              <img src="avatar.jpg" alt="Athul Varghese Joby" class="profile-avatar-img">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="spec-lbl" style="margin-bottom: 12px;">CORE RESEARCH SEGMENTS</h4>
+          <div class="research-pills">
+            <span class="pill">Ethical Hacking</span>
+            <span class="pill">Penetration Testing</span>
+            <span class="pill">Web Application Security</span>
+            <span class="pill">Vulnerability Assessment</span>
+            <span class="pill">Cyber Threat Analysis</span>
+            <span class="pill">Security Research</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: SKILLS -->
+    <section id="skills" class="split-section">
+      <aside class="sticky-aside">
+        <span class="section-number">02 // SKILLS</span>
+        <h2 class="section-title">My Skills</h2>
+        <div class="section-decor"></div>
+      </aside>
+
+      <div class="content-aside">
+        <div class="skills-layout-split">
+          
+          <!-- Graphic panel matching the robotic hand illustration in the mockup -->
+          <div class="skills-graphic-panel">
+            <div class="skills-graphic-container accent-hover">
+              <img src="skills_graphic.png" alt="Cyber Security Mesh" class="skills-graphic-img">
+              <div class="graphic-glow-effect"></div>
+            </div>
+          </div>
+
+          <!-- Skills details panel -->
+          <div class="skills-details-panel">
+            <p class="skills-bio-intro">
+              I am a passionate security student and system auditor with over 2 years of practical lab experience building, testing, and securing digital structures.
+            </p>
+            
+            <div class="skills-wrapper">
+              <!-- Part 1 -->
+              <div>
+                <h3 class="skill-category-title">SECURITY ASSESSMENTS</h3>
+                <div class="skill-bars-list">
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>Web Application Pen-testing</span>
+                      <span>85%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="85%"></div>
+                    </div>
+                  </div>
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>Vulnerability Assessments</span>
+                      <span>80%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="80%"></div>
+                    </div>
+                  </div>
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>OWASP Top 10 Auditing</span>
+                      <span>90%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="90%"></div>
+                    </div>
+                  </div>
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>Network Security Fundamentals</span>
+                      <span>75%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="75%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Part 2 -->
+              <div style="margin-top: 20px;">
+                <h3 class="skill-category-title">ARSENAL & CODING</h3>
+                <div class="skill-bars-list">
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>Kali, Burp Suite, Nmap, Wireshark, Git</span>
+                      <span>85%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="85%"></div>
+                    </div>
+                  </div>
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>Python Scripting</span>
+                      <span>80%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="80%"></div>
+                    </div>
+                  </div>
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>Java Programming</span>
+                      <span>75%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="75%"></div>
+                    </div>
+                  </div>
+                  <div class="skill-item">
+                    <div class="skill-header">
+                      <span>SQL Databases (MySQL, MongoDB)</span>
+                      <span>70%</span>
+                    </div>
+                    <div class="skill-bar-track">
+                      <div class="skill-fill-line" data-width="70%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Node Mesh section placed beautifully in the content flow -->
+        <div class="glass-card skills-canvas-card accent-hover" style="margin-top: 20px;">
+          <div>
+            <h3 class="skill-category-title" style="margin-bottom: 5px;"><i class="fa-solid fa-circle-nodes"></i> Interactive Node Mesh</h3>
+            <p style="font-size: 0.72rem; color: var(--text-muted);">
+              Hover cursor inside grid matrix to attract network nodes and estimate active paths.
+            </p>
+          </div>
+          
+          <div class="canvas-visual-box">
+            <canvas id="nodes-canvas"></canvas>
+          </div>
+          
+          <div class="canvas-footer-stats">
+            <span>MESH STATUS: ACTIVE</span>
+            <span id="nodes-active-paths" class="text-accent">0 paths active</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: PROJECTS -->
+    <section id="projects" class="split-section">
+      <aside class="sticky-aside">
+        <span class="section-number">03 // EXPLOITS</span>
+        <h2 class="section-title">My Portfolio</h2>
+        <div class="section-decor"></div>
+      </aside>
+
+      <div class="content-aside">
+        <p class="section-subtitle-intro" style="margin-bottom: 10px;">
+          A collection of my recent projects, practical security research, and network configurations.
+        </p>
+
+        <div class="projects-grid">
+          
+          <!-- Card 1 -->
+          <div class="glass-card project-card accent-hover">
+            <div class="project-header-container">
+              <div class="project-meta">
+                <span>EXPL_REF: 001 // SECURE_OCR</span>
+                <span class="project-tag active">BUILD COMPLETE</span>
+              </div>
+              <div class="project-image-box">
+                <img src="project_ocr.png" alt="OCR Food Label Scanner" class="project-card-img">
+              </div>
+            </div>
+            <div class="project-body-content">
+              <h3 class="project-title">OCR Food Label Scanner</h3>
+              <p class="project-desc">
+                Developed a Python application to extract nutritional indicators from label packaging. Used EasyOCR/Tesseract OCR engines and custom grayscale preprocessing vectors to optimize text parsing.
+              </p>
+            </div>
+            <div class="project-footer">
+              <span>Python, Tesseract, OCR</span>
+              <span>Scope: Individual</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="glass-card project-card accent-hover">
+            <div class="project-header-container">
+              <div class="project-meta">
+                <span>EXPL_REF: 002 // PORTSWIGGER</span>
+                <span class="project-tag active">LABS MET</span>
+              </div>
+              <div class="project-image-box">
+                <img src="project_portswigger.png" alt="Web Security Labs" class="project-card-img">
+              </div>
+            </div>
+            <div class="project-body-content">
+              <h3 class="project-title">Web Security Assessment Labs</h3>
+              <p class="project-desc">
+                Solved active vulnerability labs covering OWASP Top 10 risks: SQLi, XSS, Path Traversal, SSRF, authentication flow bypass, business logic flaws, and malicious file uploads on PortSwigger Academy.
+              </p>
+            </div>
+            <div class="project-footer">
+              <span>PortSwigger Academy</span>
+              <span>Scope: Practical Assessments</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="glass-card project-card accent-hover">
+            <div class="project-header-container">
+              <div class="project-meta">
+                <span>EXPL_REF: 003 // THM_CTFS</span>
+                <span class="project-tag active">ROOT ACCESS</span>
+              </div>
+              <div class="project-image-box">
+                <img src="project_tryhackme.png" alt="TryHackMe Practical Labs" class="project-card-img">
+              </div>
+            </div>
+            <div class="project-body-content">
+              <h3 class="project-title">TryHackMe Practical Labs</h3>
+              <p class="project-desc">
+                Completed various virtual offensive security challenges including Mr Robot CTF, Pickle Rick, Burp Suite Repeater manipulation, and simple vulnerability bypass architectures.
+              </p>
+            </div>
+            <div class="project-footer">
+              <span>TryHackMe Labs</span>
+              <span>Scope: Cyber Rooms</span>
+            </div>
+          </div>
+
+          <!-- Card 4 (Uses default generated mockup placeholder as fallback/variety) -->
+          <div class="glass-card project-card accent-hover">
+            <div class="project-header-container">
+              <div class="project-meta">
+                <span>EXPL_REF: 004 // NETWORKS</span>
+                <span class="project-tag active">OPERATIONAL</span>
+              </div>
+              <div class="project-image-box">
+                <!-- Reuses the skills graphic or fallback for hardware network representation -->
+                <img src="skills_graphic.png" alt="Network Setup illustration" class="project-card-img">
+              </div>
+            </div>
+            <div class="project-body-content">
+              <h3 class="project-title">Network CCTV Layout Setup</h3>
+              <p class="project-desc">
+                Designed local wiring network routing schemes and subnet interfaces for multi-node CCTV security feeds. Resolved camera connection diagnostics and packet feed latency errors.
+              </p>
+            </div>
+            <div class="project-footer">
+              <span>Routing, Subnets, CCTV</span>
+              <span>Scope: Hardware Deployment</span>
+            </div>
+          </div>
+
+          <!-- WIDGET DECKS -->
+          <h4 class="lab-modules-header"><i class="fa-solid fa-flask"></i> SYSTEM INTERACTIVE LAB MODULES</h4>
+          
+          <div class="widgets-deck">
+            <!-- Widget 1: Password Auditor -->
+            <div class="glass-card">
+              <h3 class="project-title" style="margin-bottom: 5px;">Real-Time Password Complexity Auditor</h3>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 12px;">
+                Input a trial passkey to audit entropy and estimate dictionary cracking times.
+              </p>
+              
+              <div class="auditor-form">
+                <div class="auditor-input-wrap">
+                  <input type="text" id="audit-input" placeholder="Type password here to audit..." autocomplete="off" spellcheck="false">
+                </div>
+                <div class="auditor-results">
+                  <div class="result-row">
+                    <span class="result-lbl">ENTROPY:</span>
+                    <span id="audit-entropy" class="result-val text-muted">0 bits</span>
+                  </div>
+                  <div class="result-row">
+                    <span class="result-lbl">STRENGTH:</span>
+                    <span id="audit-strength" class="result-val text-muted">NONE</span>
+                  </div>
+                  <div class="result-row full" style="margin-top: 6px;">
+                    <span class="result-lbl">CRACKING_TIME:</span>
+                    <span id="audit-cracktime" class="result-val text-muted">Instantly (&lt;0.01s)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Widget 2: Simulated OCR Scanner -->
+            <div class="glass-card">
+              <h3 class="project-title" style="margin-bottom: 5px;">Simulated Laser OCR Label Scanner</h3>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 12px;">
+                Triggers a simulated scanner vector and visualizes text metadata extraction output.
+              </p>
+              
+              <div class="ocr-sim-wrapper">
+                <div class="ocr-screen">
+                  <div class="ocr-laser-line"></div>
+                  <div class="ocr-mock-label">
+                    <div class="ocr-mock-label-title">NUTRITION SPECS</div>
+                    <div style="font-size: 0.55rem; color: #555;">CALORIES: 240kcal</div>
+                    <div style="font-size: 0.55rem; color: #555;">FAT: 8g | SODIUM: 160mg</div>
+                    <div style="font-size: 0.55rem; color: #555;">SUGARS: 12g</div>
+                  </div>
+                </div>
+                
+                <div class="ocr-controls-box">
+                  <button type="button" id="trigger-ocr-btn" class="btn btn-primary" style="width: 100%; font-size: 0.7rem; justify-content: center; padding: 10px 0;">
+                    INITIALIZE SCANNER
+                  </button>
+                  <div class="ocr-output-console" id="ocr-output-log">
+                    Status: Idle. Laser ready.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: EXPERIENCE TIMELINE -->
+    <section id="experience" class="split-section">
+      <aside class="sticky-aside">
+        <span class="section-number">04 // EXPERIENCE</span>
+        <h2 class="section-title">Infiltration Logs</h2>
+        <div class="section-decor"></div>
+      </aside>
+
+      <div class="content-aside">
+        <div class="timeline-box">
+          <div class="timeline-line-track"></div>
+          
+          <!-- Node 1 -->
+          <div class="timeline-item">
+            <div class="timeline-bullet-node"></div>
+            <div class="glass-card timeline-card accent-hover">
+              <div class="timeline-card-header">
+                <h3 class="timeline-card-title text-accent">Cyber Security Intern</h3>
+                <span class="timeline-card-date">TechCake // 2026</span>
+              </div>
+              <ul class="timeline-bullet-details">
+                <li>Completed practical cybersecurity training focused on Linux, networking, and web application security frameworks.</li>
+                <li>Performed network vulnerability assessments and penetration exercises in sandboxed testing networks.</li>
+                <li>Operated offensive tooling suites including Kali Linux systems, Burp Suite interceptors, and Nmap scanners.</li>
+                <li>Drafted comprehensive report analysis detailing security diagnostic findings.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 2 -->
+          <div class="timeline-item">
+            <div class="timeline-bullet-node"></div>
+            <div class="glass-card timeline-card accent-hover">
+              <div class="timeline-card-header">
+                <h3 class="timeline-card-title text-accent">CCTV Technical Operator</h3>
+                <span class="timeline-card-date">Historical Node</span>
+              </div>
+              <ul class="timeline-bullet-details">
+                <li>Managed configuration routing, security alignment, and hardware setups for CCTVs.</li>
+                <li>Configured local subnet routing feeds, network cabling layouts, and resolved camera diagnostic latency issues.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: CERTIFICATIONS -->
+    <section id="certs" class="split-section">
+      <aside class="sticky-aside">
+        <span class="section-number">05 // DECRYPTION KEYS</span>
+        <h2 class="section-title">Certifications</h2>
+        <div class="section-decor"></div>
+      </aside>
+
+      <div class="content-aside">
+        <div class="certs-grid">
+          
+          <div class="glass-card cert-card accent-hover">
+            <div class="cert-icon-wrap"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3 class="cert-card-title">NPTEL Java Program</h3>
+            <span class="cert-card-desc">Elite Certification (80%)</span>
+          </div>
+
+          <div class="glass-card cert-card accent-hover">
+            <div class="cert-icon-wrap"><i class="fa-solid fa-network-wired"></i></div>
+            <h3 class="cert-card-title">Cisco NetAcad CCNA</h3>
+            <span class="cert-card-desc">Intro to Networks Mapped</span>
+          </div>
+
+          <div class="glass-card cert-card accent-hover">
+            <div class="cert-icon-wrap"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3 class="cert-card-title">Cisco NetAcad Cyber</h3>
+            <span class="cert-card-desc">Introduction to Cybersecurity</span>
+          </div>
+
+          <div class="glass-card cert-card accent-hover">
+            <div class="cert-icon-wrap"><i class="fa-brands fa-redhat"></i></div>
+            <h3 class="cert-card-title">Red Hat Academy</h3>
+            <span class="cert-card-desc">Linux Fundamentals (RH104)</span>
+          </div>
+
+          <div class="glass-card cert-card accent-hover">
+            <div class="cert-icon-wrap"><i class="fa-solid fa-bolt"></i></div>
+            <h3 class="cert-card-title">NASSCOM FutureSkills</h3>
+            <span class="cert-card-desc">Digital Engineering (Gold Standard)</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06: CONTACT LINK -->
+    <section id="contact" class="split-section">
+      <aside class="sticky-aside">
+        <span class="section-number">06 // SECURE LINK</span>
+        <h2 class="section-title">Establish Link</h2>
+        <div class="section-decor"></div>
+      </aside>
+
+      <div class="content-aside">
+        <div class="contact-split-wrap">
+          
+          <!-- Channels -->
+          <div class="contact-channels-deck">
+            <div class="glass-card channel-icon-card accent-hover">
+              <div class="channel-icon-graphic"><i class="fa-solid fa-envelope"></i></div>
+              <div class="channel-text-group">
+                <span class="channel-title-lbl">SECURE_MAIL_RELAY</span>
+                <a href="mailto:athulvarghesejoby@gmail.com" class="channel-text-val">athulvarghesejoby@gmail.com</a>
+              </div>
+            </div>
+
+            <div class="glass-card channel-icon-card accent-hover">
+              <div class="channel-icon-graphic"><i class="fa-solid fa-phone"></i></div>
+              <div class="channel-text-group">
+                <span class="channel-title-lbl">ENCRYPTED_VOICE_LINE</span>
+                <span class="channel-text-val">+91 85******45</span>
+              </div>
+            </div>
+
+            <div class="glass-card channel-icon-card accent-hover">
+              <div class="channel-icon-graphic"><i class="fa-brands fa-linkedin-in"></i></div>
+              <div class="channel-text-group">
+                <span class="channel-title-lbl">LINKED_PORT_GATE</span>
+                <a href="https://www.linkedin.com/in/athul-varghese-joby" target="_blank" rel="noopener noreferrer" class="channel-text-val">linkedin.com/in/athul-varghese-joby</a>
+              </div>
+            </div>
+
+            <div class="glass-card channel-icon-card accent-hover">
+              <div class="channel-icon-graphic"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="channel-text-group">
+                <span class="channel-title-lbl">PHYSICAL_GRID_COORD</span>
+                <span class="channel-text-val">Kannur, Kerala, India</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form card -->
+          <div class="glass-card transmitter-form-card accent-hover">
+            <h3 class="project-title" style="margin-bottom: 5px;">Transmit Secure Packet</h3>
+            <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 20px;">
+              Fill input fields below to wrap transmission and forward encrypted message relay.
+            </p>
+            
+            <form id="secure-contact-form" class="transmitter-form">
+              <div class="form-field-wrap">
+                <label for="form-sender">SENDER_ID (Name)</label>
+                <input type="text" id="form-sender" placeholder="anonymous_agent..." required>
+              </div>
+              <div class="form-field-wrap">
+                <label for="form-email">RESPONSE_IP (Email)</label>
+                <input type="email" id="form-email" placeholder="agent@node.net..." required>
+              </div>
+              <div class="form-field-wrap">
+                <label for="form-msg">PAYLOAD_DATA (Message)</label>
+                <textarea id="form-msg" rows="4" placeholder="Input transmission data payload here..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="justify-content: center; width: 100%;">
+                TRANSMIT PAYLOAD <i class="fa-solid fa-paper-plane"></i>
+              </button>
+              <div id="form-status" class="form-dispatch-status"></div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SITE FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-connection">
+        <span class="ping-indicator"></span>
+        <span>NODE://GATEWAY_CONNECTED</span>
+      </div>
+      <div class="hidden-mobile" style="color: var(--text-dark);">
+        Control is an Illusion.
+      </div>
+      <div>
+        <span>SYSTEM_TIME: <span id="sys-clock">00:00:00</span></span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

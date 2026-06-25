@@ -1,0 +1,1502 @@
+/* ============================================================
+   PORTFOLIO — STYLE.CSS  |  Light Theme Only
+   ============================================================ */
+
+/* ── CUSTOM PROPERTIES ─────────────────────────────────── */
+:root {
+  --bg:            #FBFBFB;
+  --fg:            #2D2D2D;
+  --fg-dim:        rgba(17, 17, 17, 0.25);
+  --fg-dimmer:     rgba(17, 17, 17, 0.08);
+  --accent:        #22c55e;
+  --accent-dim:    rgba(34, 197, 94, 0.10);
+  --border:        rgba(17, 17, 17, 0.10);
+  --border-strong: rgba(17, 17, 17, 0.20);
+
+  /* Typography */
+  --font-display: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+  --font-name:    'Barlow Condensed', 'Arial Black', Impact, sans-serif;
+  --font-ui:      'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Name — tight line-height */
+  --name-fs:  clamp(110px, 15vw, 220px);
+  --name-lh:  0.82;
+  --name-h:   calc(var(--name-fs) * var(--name-lh));
+
+  /* Easing */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce:    cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── PAGE TRANSITION OVERLAY (legacy, kept invisible) ───── */
+#pageOverlay {
+  display: none;
+}
+
+/* ── 3-PANEL TYPOGRAPHIC TRANSITION ─────────────────────── */
+#txOverlay {
+  position: fixed;
+  inset: 0;
+  /* Below CRT frame (9950) so transitions happen inside the TV screen */
+  z-index: 9900;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Scanlines on top of transition panels — very subtle */
+#txOverlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent              0px,
+    transparent              3px,
+    rgba(0, 0, 0, 0.03)      3px,
+    rgba(0, 0, 0, 0.03)      4px
+  );
+}
+
+
+
+/* ── panels layer (background only, zooms) ── */
+.tx-panels {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.tx-p {
+  height: 100%;
+  flex-shrink: 0;
+  background: #1a1614;
+}
+.tx-p--l, .tx-p--r { flex: 0 0 27%; }
+.tx-p--c {
+  flex: 0 0 46%;
+  transform-origin: 50% 50%;
+}
+
+/* ── text layer (full-width, never clips) ── */
+.tx-text {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.tx-words {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.3em 0;
+  overflow: hidden;
+}
+.tx-word {
+  font-family: 'Barlow Condensed', 'Arial Black', Impact, sans-serif;
+  font-weight: 900;
+  font-size: clamp(3.5rem, 11vw, 13rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+  white-space: nowrap;
+  display: block;
+  flex-shrink: 0;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+.tx-words--o .tx-word {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.20);
+}
+.tx-words--f {
+  clip-path: inset(0 0 100% 0);
+}
+.tx-words--f .tx-word {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  height: 100%;
+  background: #1a1614; /* Dark fallback — hides browser's blank frame during page transitions */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide preloader before first render when coming from internal nav */
+html.skip-preloader #preloader {
+  display: none !important;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  cursor: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ── BACKGROUND ─────────────────────────────────────────── */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fluid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+/* ── MENU DOTS (CREATIVE / MORPHING) ───────────────────── */
+.menu-dots {
+  position: fixed;
+  top: 38px;
+  right: 38px;
+  z-index: 200;
+  width: 48px;
+  height: 48px;
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 0;
+}
+
+.menu-dots span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg);
+  display: block;
+  transition:
+    left  0.75s var(--ease-out-quint),
+    top   0.75s var(--ease-out-quint),
+    transform 0.3s var(--ease-bounce),
+    opacity 0.3s;
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.22; }
+}
+
+.menu-dots span:nth-child(1) { animation-delay: 0.00s; }
+.menu-dots span:nth-child(2) { animation-delay: 0.27s; }
+.menu-dots span:nth-child(3) { animation-delay: 0.53s; }
+.menu-dots span:nth-child(4) { animation-delay: 0.80s; }
+.menu-dots span:nth-child(5) { animation-delay: 1.07s; }
+.menu-dots span:nth-child(6) { animation-delay: 1.33s; }
+.menu-dots span:nth-child(7) { animation-delay: 1.60s; }
+.menu-dots span:nth-child(8) { animation-delay: 1.87s; }
+.menu-dots span:nth-child(9) { animation-delay: 2.13s; }
+
+.menu-dots.fluid-over span {
+  background: white;
+  transition: background 0.3s ease, left 0.75s var(--ease-out-quint), top 0.75s var(--ease-out-quint), transform 0.3s var(--ease-bounce), opacity 0.3s;
+}
+
+.menu-dots:hover span {
+  animation-play-state: paused;
+  opacity: 1 !important;
+}
+.menu-dots:hover span:nth-child(odd)  { transform: scale(1.8); }
+.menu-dots:hover span:nth-child(even) { transform: scale(1.2); }
+.menu-dots:hover span:nth-child(5)    { transform: scale(2.5); }
+
+/* ── SIDE LABELS ────────────────────────────────────────── */
+.side {
+  position: fixed;
+  top: 65%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  cursor: none;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  animation: sideReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.2s both;
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+}
+
+.side--left  {
+  left: 64px;
+  transform-origin: left center;
+  animation-name: sideRevealLeft;
+}
+
+.side--right {
+  right: 64px;
+  transform-origin: right center;
+  animation-name: sideRevealRight;
+}
+
+@keyframes sideRevealLeft {
+  from { opacity: 0; transform: translateX(-50px) translateY(-50%); }
+  to   { opacity: 1; transform: translateX(0)     translateY(-50%); }
+}
+
+@keyframes sideRevealRight {
+  from { opacity: 0; transform: translateX(50px) translateY(-50%); }
+  to   { opacity: 1; transform: translateX(0)    translateY(-50%); }
+}
+
+/* Small vertical label */
+.side-text {
+  writing-mode: vertical-rl;
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #111;
+  white-space: nowrap;
+  transition: color 0.5s var(--ease-out-quint), text-shadow 0.5s var(--ease-out-quint);
+}
+
+.side--left .side-text {
+  transform: rotate(180deg);
+}
+
+.side--right .side-text {
+  letter-spacing: 0.10em;
+  margin-top: 2px;
+}
+
+.side--right .side-arrow {
+  position: relative;
+  top: 4px;
+}
+
+.side:hover .side-text {
+  color: rgba(17, 17, 17, 0.55);
+}
+
+/* Huge decorative number */
+.side-nr {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: clamp(100px, 13vw, 360px);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  color: #111111;
+  opacity: 0.07;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: color 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), text-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+}
+
+.side--left .side-nr  { transform: rotate(180deg); margin-top: -4px; }
+.side--right .side-nr { transform: rotate(0deg); }
+
+.side:hover .side-nr {
+  color: rgba(17, 17, 17, 0.11);
+}
+
+/* ── SLIDE GROUP ─────────────────────────────────────────── */
+.slide-group {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  will-change: transform;
+}
+
+/* ── PORTRAIT ────────────────────────────────────────────── */
+.portrait-section {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  height: 95vh;
+  width: auto;
+  display: flex;
+  align-items: flex-end;
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 18%);
+  mask-image: linear-gradient(to top, transparent 0%, black 18%);
+  animation: portraitReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0s both;
+}
+
+@keyframes portraitReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.portrait-frame {
+  position: relative;
+  height: 100%;
+  width: auto;
+}
+
+.portrait-base {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+.portrait-illustration {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  visibility: hidden;
+}
+
+.illustration-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── NAME (EVREN / GALEKTO) ──────────────────────────────── */
+.name-section {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  overflow: visible;
+
+  animation: nameReveal 1.0s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both;
+}
+
+@keyframes nameReveal {
+  from { opacity: 0; transform: translateY(60px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.name-display {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  line-height: var(--name-lh);
+  position: relative; /* YENİ EKLENDİ: Grain filtresi için kilit */
+}
+
+
+/* Individual letter slot */
+.name-slot {
+  height: var(--name-h);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transition: width 0.35s var(--ease-out-quint), opacity 0.25s;
+}
+
+.name-slot.exiting {
+  opacity: 0;
+  width: 0 !important;
+}
+
+/* The spinning reel */
+.name-reel {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+/* Individual char on the reel */
+.name-char {
+  font-family: var(--font-name);
+  font-size: var(--name-fs);
+  font-weight: 900;
+  line-height: var(--name-lh);
+  height: var(--name-h);
+  color: var(--fg);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 0 0.008em;
+}
+
+/* ── CUSTOM CURSOR ───────────────────────────────────────── */
+.cursor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10003;
+}
+
+.cursor-dot {
+  position: absolute;
+  left: -200px; top: -200px; /* JS yazana kadar ekran dışında */
+  width: 2px;
+  height: 12px;
+  border-radius: 0;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  mix-blend-mode: difference;
+}
+
+.cursor-dot::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  background: #fff;
+  border-radius: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Contact page uses UFO cursor — hide default cursor elements */
+body.page-contact .cursor-dot,
+body.page-contact .cursor-ring {
+  display: none;
+}
+
+.cursor-ring {
+  position: absolute;
+  left: -200px; top: -200px; /* JS yazana kadar ekran dışında */
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  mix-blend-mode: difference;
+  transition:
+    width  0.3s var(--ease-bounce),
+    height 0.3s var(--ease-bounce);
+}
+
+/* cursor ring sabit boyut — zone değişiminde büyüyüp küçülme yok */
+
+/* ── PAGE INIT ──────────────────────────────────────────── */
+body:not(.js-ready) .name-section,
+body:not(.js-ready) .portrait-section {
+  visibility: hidden;
+}
+
+/* ── TRANSITION WORDS — MOBILE ───────────────────────────── */
+@media (max-width: 768px) {
+  .tx-word { font-size: clamp(5rem, 32vw, 9rem); }
+  .tx-words { left: 16px; right: 16px; }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --name-fs: clamp(100px, 24vw, 160px); }
+
+  .portrait-section { height: 70vh; left: 55%; }
+  .menu-dots        { top: 16px; right: 18px; }
+  .side-nr          { display: none; }
+  .side--left       { left: 24px; }
+  .side--right      { right: 24px; }
+  .slide-group      { transform: none !important; }
+  .name-section     { justify-content: center; left: 0; right: 0; bottom: 8px; }
+  .name-display     { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  :root { --name-fs: clamp(80px, 22vw, 120px); }
+
+  .portrait-section { height: 65vh; }
+  .side-nr          { font-size: clamp(50px, 10vw, 90px); }
+  .side-text        { font-size: 11px; }
+}
+
+/* ── TV PRELOADER ────────────────────────────────────────── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #060606;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* TV outer — fills entire preloader; barrel clip-path via JS creates CRT shape */
+.tv-outer {
+  position: absolute;
+  inset: 0;
+  background: #050505;
+  padding: 8px;
+  filter: drop-shadow(0 6px 40px rgba(0, 0, 0, 0.9));
+}
+
+/* Subtle gray bevel — visible at barrel midpoints (element edge = screen edge there) */
+.tv-outer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(160, 160, 160, 0.20) 0%, transparent 22px),
+    linear-gradient(to top,    rgba(130, 130, 130, 0.14) 0%, transparent 16px),
+    linear-gradient(to right,  rgba(145, 145, 145, 0.17) 0%, transparent 20px),
+    linear-gradient(to left,   rgba(145, 145, 145, 0.17) 0%, transparent 20px);
+}
+
+/* TV screen inner */
+.tv-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(14px, 2vw, 36px);
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+/* Inner layer */
+.tv-inner {
+  position: absolute;
+  inset: 0;
+}
+
+/* SMPTE bars — top 75% */
+.tv-bars {
+  position: absolute;
+  inset: 0 0 25% 0;
+  display: flex;
+}
+
+.tv-bar       { flex: 1; height: 100%; }
+.tv-bar--w    { background: #ffffff; }
+.tv-bar--y    { background: #ffff00; }
+.tv-bar--c    { background: #00ffff; }
+.tv-bar--g    { background: #00ff00; }
+.tv-bar--m    { background: #ff00ff; }
+.tv-bar--r    { background: #ff0000; }
+.tv-bar--b    { background: #0000ff; }
+
+/* Bottom strip */
+.tv-bars-bottom {
+  position: absolute;
+  inset: 75% 0 0 0;
+  display: flex;
+}
+
+.tv-bar-b     { flex: 1; height: 100%; }
+.tv-bar-b--1  { background: #0000bb; }
+.tv-bar-b--2  { background: #131313; }
+.tv-bar-b--3  { background: #bb00bb; }
+.tv-bar-b--4  { background: #131313; }
+.tv-bar-b--5  { background: #00bbbb; }
+.tv-bar-b--6  { background: #131313; }
+.tv-bar-b--7  { background: #eeeeee; }
+
+/* Barcode patterns left/right */
+.tv-barcode {
+  position: absolute;
+  top: 0;
+  bottom: 25%;
+  width: 17%;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to right,
+    #000  0px, #000  5px,
+    #fff  5px, #fff  9px,
+    #000  9px, #000 13px,
+    #fff 13px, #fff 15px,
+    #000 15px, #000 21px,
+    #fff 21px, #fff 25px,
+    #000 25px, #000 29px,
+    #fff 29px, #fff 31px,
+    #000 31px, #000 38px
+  );
+  opacity: 0.88;
+}
+
+.tv-barcode--left  { left: 0; }
+.tv-barcode--right { right: 0; }
+
+/* Center content */
+.tv-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Black panel wrapping text + bar — fixed proportional size */
+.tv-panel {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: clamp(12px, 2vw, 36px) clamp(14px, 2.8vw, 48px) clamp(18px, 2.4vw, 28px);
+  gap: clamp(8px, 1.2vw, 16px);
+  width: clamp(220px, 36vw, 520px);
+  flex-shrink: 0;
+}
+
+.tv-msg {
+  color: #fff;
+  font-family: 'VT323', monospace;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 4.8rem);
+  letter-spacing: 0.08em;
+  text-align: center;
+  line-height: 1.05;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.22);
+}
+
+/* Bar row — height = fill height + 2 × (gap + border) = 34 + 18 = 52px */
+.tv-panel-bar {
+  position: relative;
+  height: 52px;
+}
+
+/* Fill area — absolutely centered; ::before draws the stroke frame outside */
+.tv-progress {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(160px, 26vw, 380px);
+  height: 34px;
+  overflow: hidden;
+}
+
+/* Stroke: 8px gap + 1px border around the fill area */
+.tv-progress::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  pointer-events: none;
+}
+
+/* Segments width set dynamically by JS */
+.tv-progress-fill {
+  height: 100%;
+  width: 0%;
+}
+
+/* Pct hidden — bar stroke used instead */
+.tv-pct {
+  display: none;
+}
+
+/* ── TV SKIP HINT ────────────────────────────────────────── */
+.tv-skip-hint {
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.tv-skip-hint.is-visible { opacity: 1; }
+.tv-skip-hint.is-pulsing {
+  animation: tvSkipPulse 2s ease-in-out infinite;
+}
+.tv-skip-desktop,
+.tv-skip-mobile {
+  font-family: 'VT323', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: none;
+}
+.tv-skip-desktop {
+  font-size: 24px;
+  color: #facc15;
+}
+.tv-skip-mobile {
+  font-size: 28px;
+  color: #facc15;
+}
+@media (pointer: fine) {
+  .tv-skip-desktop { display: block; }
+}
+@media (pointer: coarse) {
+  .tv-skip-mobile { display: block; }
+}
+@keyframes tvSkipPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* Scanlines */
+.tv-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent              0px,
+    transparent              2px,
+    rgba(0, 0, 0, 0.13)      2px,
+    rgba(0, 0, 0, 0.13)      4px
+  );
+  pointer-events: none;
+}
+
+/* Grain canvas */
+.tv-grain-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 16;
+  width: 100%;
+  height: 100%;
+  opacity: 0.16;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+/* Pixel glitch canvas — z-index 14 so snow covers panel during burst */
+.tv-glitch-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 14;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+/* CRT vignette */
+.tv-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 18;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+}
+
+/* Scanner lines — horizontal bright lines sweeping top → bottom continuously */
+.tv-scanner-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+.tv-scanner-lines span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.12);
+  mix-blend-mode: multiply;
+  box-shadow:
+    0  3px 0 rgba(255, 255, 255, 0.06),
+    0  6px 0 rgba(255, 255, 255, 0.03);
+  will-change: transform;
+  animation: tvScanDown var(--dur, 3s) linear infinite;
+  animation-delay: var(--del, 0s);
+}
+@keyframes tvScanDown {
+  from { transform: translateY(-10px); }
+  to   { transform: translateY(calc(100vh + 10px)); }
+}
+
+/* Inner screen edge highlight — glass/CRT light reflection on all edges */
+.tv-inner-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 17;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 0%, transparent 22%),
+    linear-gradient(to top,    rgba(255, 255, 255, 0.05) 0%, transparent 18%),
+    linear-gradient(to right,  rgba(255, 255, 255, 0.06) 0%, transparent 18%),
+    linear-gradient(to left,   rgba(255, 255, 255, 0.06) 0%, transparent 18%);
+}
+
+/* Chaos blocks */
+.tv-chaos { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.tv-cb    { position: absolute; }
+
+/* Large pink corner blocks */
+.tv-cb-1  { top: 0;    left: 0;     width: 9%;    height: 48%; background: #ff7aff; }
+.tv-cb-2  { top: 0;    right: 0;    width: 9%;    height: 48%; background: #ff7aff; }
+/* Dark flanking barcodes */
+.tv-cb-3  { top: 0;    left: 9%;    width: 4.5%;  height: 48%; background: #0d0d0d; }
+.tv-cb-4  { top: 0;    right: 9%;   width: 4.5%;  height: 48%; background: #0d0d0d; }
+/* Blue accent blocks top inner */
+.tv-cb-5  { top: 0;    left: 13.5%; width: 2.5%;  height: 24%; background: #0033dd; }
+.tv-cb-6  { top: 0;    right: 13.5%;width: 2.5%;  height: 24%; background: #0033dd; }
+/* Bottom blue corner blocks */
+.tv-cb-7  { bottom: 0; left: 0;     width: 9%;    height: 28%; background: #0033cc; }
+.tv-cb-8  { bottom: 0; right: 0;    width: 9%;    height: 28%; background: #0033cc; }
+/* Magenta scattered bottom */
+.tv-cb-9  { bottom: 28%; left: 3.5%; width: 4.5%; height: 13%; background: #ff00cc; }
+.tv-cb-10 { bottom: 0;   left: 9%;   width: 4%;   height: 13%; background: #ff44bb; }
+/* Yellow accents */
+.tv-cb-11 { bottom: 29%; right: 3%;  width: 3%;   height: 9%;  background: #ffff00; }
+.tv-cb-12 { bottom: 0;   right: 9%;  width: 2.5%; height: 11%; background: #ffee00; }
+/* Thin cyan vertical markers */
+.tv-cb-13 { top: 28%; left: 21%;    width: 3px;   height: 34%; background: #00ffff; }
+.tv-cb-14 { top: 22%; right: 19%;   width: 3px;   height: 40%; background: #00ffff; }
+/* Horizontal cyan stripe mid */
+.tv-cb-15 { top: 67%; left: 17%;    width: 20%;   height: 2px; background: #00ffff; }
+/* Small stray mid blocks */
+.tv-cb-16 { top: 13%;  left: 36%;   width: 3%;    height: 8%;  background: #ff0000; }
+.tv-cb-17 { top: 7%;   right: 31%;  width: 2%;    height: 6%;  background: #ffff00; }
+.tv-cb-18 { top: 50%;  left: 14%;   width: 4.5%;  height: 15%; background: #0d0d0d; }
+.tv-cb-19 { top: 44%;  right: 12%;  width: 3.5%;  height: 19%; background: #0d0d0d; }
+/* White stripe accent */
+.tv-cb-20 { bottom: 30%; left: 23%;  width: 1.5%;  height: 22%; background: rgba(255,255,255,0.75); }
+/* Extra chaos — upper area */
+.tv-cb-21 { top: 0;     left: 16%;   width: 2%;    height: 12%; background: #ff0000; }
+.tv-cb-22 { top: 0;     right: 16%;  width: 1.5%;  height: 17%; background: #00ff00; }
+/* Mid column accents */
+.tv-cb-23 { top: 52%;   left: 0;     width: 9%;    height: 8%;  background: #ffff00; }
+.tv-cb-24 { top: 60%;   right: 0;    width: 9%;    height: 7%;  background: #ff00ff; }
+/* Small white dashes */
+.tv-cb-25 { top: 22%;   left: 31%;   width: 1.5%;  height: 6%;  background: #fff; }
+.tv-cb-26 { top: 38%;   right: 29%;  width: 1%;    height: 9%;  background: #fff; }
+/* Bottom inner accents */
+.tv-cb-27 { bottom: 0;  left: 13.5%; width: 3%;    height: 9%;  background: #0000ff; }
+.tv-cb-28 { bottom: 0;  right:13.5%; width: 2.5%;  height: 7%;  background: #ff0000; }
+/* Thin horizontal stripes mid */
+.tv-cb-29 { top: 46%;   left: 17%;   width: 22%;   height: 2px; background: rgba(255,255,255,0.6); }
+.tv-cb-30 { top: 40%;   right: 20%;  width: 14%;   height: 2px; background: rgba(255,0,255,0.85); }
+
+/* Cyan crosshairs */
+.tv-cross {
+  position: absolute;
+  width: clamp(14px, 2.2vw, 26px);
+  height: clamp(14px, 2.2vw, 26px);
+  z-index: 4;
+}
+.tv-cross::before,
+.tv-cross::after {
+  content: '';
+  position: absolute;
+  background: #00ffff;
+}
+.tv-cross::before { top: 50%; left: 0; width: 100%; height: 1.5px; transform: translateY(-50%); }
+.tv-cross::after  { left: 50%; top: 0; height: 100%; width: 1.5px; transform: translateX(-50%); }
+
+.tv-cross-1 { bottom: 34%; left: 20%; }
+.tv-cross-2 { bottom: 29%; right: 18%; }
+.tv-cross-3 { top: 18%;    left: 44%; }
+
+/* ── BOOT SEQUENCE ───────────────────────────────────────── */
+body.boot-pending .portrait-section,
+body.boot-pending .name-section {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+body.boot-pending .side {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .tv-screen {
+    border-radius: clamp(10px, 1.8vw, 24px);
+  }
+  .tv-barcode {
+    display: none;
+  }
+  .tv-msg {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    letter-spacing: 0.06em;
+  }
+  .bios-line--logo {
+    font-size: 22px !important;
+    letter-spacing: 0.1em;
+  }
+  /* Loading bar — smaller on mobile; gap 5px → inset -6px */
+  .tv-panel-bar {
+    height: 28px;
+  }
+  .tv-progress {
+    height: 16px;
+  }
+  .tv-progress::before {
+    inset: -6px;
+  }
+}
+
+/* ── MOBILE: cursor kapalı ───────────────────────────────── */
+@media (max-width: 768px) {
+  body, a, button { cursor: auto; }
+  .cursor, .cursor-dot, .cursor-ring { display: none !important; }
+}
+
+/* ── TOUCH DEVICES: custom cursor kapalı ────────────────── */
+@media (pointer: coarse) {
+  body, a, button { cursor: auto; }
+  .cursor, .cursor-dot, .cursor-ring { display: none !important; }
+}
+
+/* ── REDUCED MOTION ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* Decorative looping scroll animations: stop and reset position */
+  .clients-track,
+  .marquee-col-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Magnetic hover image has no purpose without motion */
+  .magnetic-img {
+    display: none !important;
+  }
+}
+
+/* ── SCREEN READER ONLY ──────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── SKIP TO CONTENT ─────────────────────────────────────── */
+.skip-to-content {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 99999;
+  background: #ef4444;
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 2px;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 20px;
+}
+
+/* ── FOCUS STYLES ────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #ef4444;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Projects sayfası — hem kırmızı hem beyaz bölümde görünür focus */
+body.page-uxui :focus-visible {
+  outline: 2px solid #1c1917;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.75);
+}
+body.page-uxui .skip-to-content {
+  background: #1c1917;
+  color: #fff;
+}
+
+/* Artworks — sarı outline + beyaz halo */
+body.page-artworks :focus-visible {
+  outline: 2px solid #facc15;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.75);
+}
+body.page-artworks .skip-to-content {
+  background: #facc15;
+  color: #1d4ed8;
+}
+
+/* Contact — kırmızı outline + beyaz halo */
+body.page-contact :focus-visible {
+  outline: 2px solid #ef4444;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.75);
+}
+body.page-contact .skip-to-content {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* Ana sayfa — mavi outline + kırmızı halo */
+body.page-index :focus-visible {
+  outline: 2px solid #1d4ed8;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.75);
+}
+body.page-index .skip-to-content {
+  background: #1d4ed8;
+  color: #fff;
+}
+
+/* ============================================================
+   SIDEBAR HOVER (BÜYÜME VE KAYBOLMA) EFEKTLERİ - SABİT KONUM
+   ============================================================ */
+
+/* FARE SOLA (UX/UI DESIGN) GİDİNCE */
+body.cursor-left .side--left {
+  scale: 1.15;
+  opacity: 1;
+}
+body.cursor-left .side--left .side-nr {
+  writing-mode: horizontal-tb;
+  transform: rotate(720deg) scale(1.15);
+  color: #ef4444;
+  opacity: 1;
+  text-shadow: 0 0 28px rgba(239, 68, 68, 0.45), 0 0 60px rgba(239, 68, 68, 0.15);
+  transition: color 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), text-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.cursor-left .side--left .side-text {
+  color: #b91c1c;
+  text-shadow: 0 0 18px rgba(185, 28, 28, 0.50), 0 0 40px rgba(185, 28, 28, 0.18);
+}
+body.cursor-left .side--right {
+  opacity: 0.10 !important;
+  scale: 0.95;
+  pointer-events: none;
+}
+
+/* FARE SAĞA (ILLUSTRATION) GİDİNCE */
+body.cursor-right .side--right {
+  scale: 1.15;
+  opacity: 1;
+}
+body.cursor-right .side--right .side-nr {
+  writing-mode: horizontal-tb;
+  transform: rotate(360deg) scale(1.15);
+  color: #1d4ed8;
+  opacity: 1;
+  text-shadow: 0 0 28px rgba(29, 78, 216, 0.55), 0 0 60px rgba(29, 78, 216, 0.20);
+  transition: color 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), text-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.cursor-right .side--right .side-text {
+  color: #1d4ed8;
+  text-shadow: 0 0 18px rgba(29, 78, 216, 0.50), 0 0 40px rgba(29, 78, 216, 0.18);
+}
+body.cursor-right .side--left {
+  opacity: 0.10 !important;
+  scale: 0.95;
+  pointer-events: none;
+}
+
+
+/* ── SIDE ARROW ANIMATION ─────────────────────────────────── */
+.side-arrow {
+  display: inline-block;
+}
+
+body.cursor-left .side--left .side-arrow,
+body.cursor-right .side--right .side-arrow {
+  animation: arrowDrip 1.1s ease-in-out infinite;
+}
+
+@keyframes arrowDrip {
+  0%   { transform: translateY(-4px); opacity: 0.25; }
+  45%  { transform: translateY(3px);  opacity: 1;    }
+  55%  { transform: translateY(3px);  opacity: 1;    }
+  100% { transform: translateY(-4px); opacity: 0.25; }
+}
+
+/* ================================================================
+   PAGE TV OVERLAY — CRT/grain effect on all pages
+   All layers: position:fixed, pointer-events:none, z-index 500
+   (above page content, well below nav at 9000)
+   ================================================================ */
+
+.page-tv-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9920;  /* above txOverlay (9900) — grain/vignette visible during transitions */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Horizontal scan lines */
+.page-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent              0px,
+    transparent              3px,
+    rgba(0, 0, 0, 0.07)      3px,
+    rgba(0, 0, 0, 0.07)      4px
+  );
+  pointer-events: none;
+}
+
+/* Grain canvas */
+.page-grain-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.055;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+/* CRT vignette — darker corners */
+.page-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 52%,
+    rgba(0, 0, 0, 0.42) 100%
+  );
+}
+
+/* Sweeping bright scanner lines */
+.page-scanner-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.page-scanner-lines span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -4px;
+  height: 3px;
+  background: rgba(255, 255, 255, var(--op, 0.28));
+  mix-blend-mode: multiply;
+  box-shadow:
+    0  5px 0  rgba(255, 255, 255, 0.12),
+    0  9px 0  rgba(255, 255, 255, 0.06),
+    0  0  10px rgba(255, 255, 255, 0.12);
+  will-change: transform;
+  animation: pageScanDown var(--dur, 10s) linear infinite;
+  animation-delay: var(--del, 0s);
+}
+/* Periodic sweep: sweeps in first 62%, hidden remaining 38% */
+@keyframes pageScanDown {
+  0%   { transform: translateY(0);                   opacity: 0;   }
+  3%   { opacity: 1;                                              }
+  59%  { transform: translateY(calc(100vh + 8px));   opacity: 0.7; }
+  62%  { transform: translateY(calc(100vh + 8px));   opacity: 0;   }
+  100% { transform: translateY(calc(100vh + 8px));   opacity: 0;   }
+}
+
+/* Subtle edge glow — CRT glass feel */
+.page-inner-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 0%, transparent 15%),
+    linear-gradient(to top,    rgba(255, 255, 255, 0.03) 0%, transparent 12%),
+    linear-gradient(to right,  rgba(255, 255, 255, 0.03) 0%, transparent 12%),
+    linear-gradient(to left,   rgba(255, 255, 255, 0.03) 0%, transparent 12%);
+}
+
+/* ================================================================
+   CRT GLASS BEVEL — inward emboss on the barrel window rim
+   Simulates curved CRT glass: top/left bright highlights (light source),
+   bottom/right subtle shadow (glass curves away from viewer).
+   JS applies the INNER barrel clip-path (non-evenodd) so the bevel
+   gradient is visible only inside the screen window, fading to centre.
+   z-index: 9945 — just below the dark bezel frame (9950)
+   ================================================================ */
+
+.page-crt-bevel {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  pointer-events: none;
+  /* Single inset shadow — JS barrel clip-path shapes it to the CRT oval.
+     Shadow radiates inward from viewport edges; clip cuts to barrel window,
+     so darkness follows the curved CRT rim with no corner overlap. */
+  box-shadow:
+    inset 0 0 70px rgba(0, 0, 0, 0.90),
+    inset 0 0 28px rgba(0, 0, 0, 0.68);
+}
+
+/* ================================================================
+   CRT BEZEL FRAME — real TV screen border on every page
+   JS applies evenodd barrel clip-path: dark outside, transparent inside.
+   z-index: 9950 → above nav/menus, below cursor (9999)
+   ================================================================ */
+
+.page-tv-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  background: rgba(5, 3, 2, 0.97);
+  /* Start hidden — clip-path JS runs synchronously and sets it visible immediately after */
+  visibility: hidden;
+}
+
+/* ================================================================
+   TV BIOS SCREEN — amber terminal, appears after 100% load
+   Lives inside .tv-screen so CRT overlays (scanlines, grain) apply
+   ================================================================ */
+
+.tv-bios {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #030201;
+  padding: clamp(52px, 7vh, 90px) clamp(48px, 5vw, 80px) clamp(52px, 7vh, 90px);
+  font-family: 'VT323', monospace;
+  overflow: hidden;
+  opacity: 0;
+  clip-path: inset(50% 0);
+  transition: clip-path 0.16s ease-out, opacity 0.06s ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.tv-bios.is-visible {
+  clip-path: inset(0% 0);
+  opacity: 1;
+}
+
+/* Terminal body — scrolls internally, fixed header stays above */
+.bios-terminal-body {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Terminal body bottom padding — içerik dibe yapışmasın */
+.bios-terminal-body {
+  padding-bottom: clamp(20px, 3vw, 48px);
+}
+
+/* (artık kullanılmıyor) */
+.bios-line--ascii {
+  font-size: clamp(14px, 1.8vw, 22px);
+  color: rgba(255, 176, 0, 0.65);
+  line-height: 1.15;
+  letter-spacing: 0;
+  white-space: pre;
+  display: block;
+  overflow: hidden;
+  min-height: 0;
+  margin-bottom: 6px;
+}
+
+/* Base line — all types inherit this */
+.bios-line {
+  display: flex;
+  align-items: baseline;
+  white-space: pre;
+  font-size: clamp(16px, 2.1vw, 26px);
+  line-height: 1.55;
+  color: #ffb000;
+  min-height: 0;
+}
+
+.bios-line--header {
+  font-size: clamp(20px, 2.7vw, 34px);
+  color: #ffd060;
+  letter-spacing: 0.03em;
+  margin-bottom: 1px;
+}
+
+.bios-line--sep {
+  color: rgba(255, 176, 0, 0.28);
+  font-size: clamp(15px, 2vw, 24px);
+}
+
+.bios-line--section {
+  font-size: clamp(18px, 2.4vw, 29px);
+  color: #ffc840;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+.bios-line--empty {
+  font-size: clamp(8px, 0.8vw, 10px);
+  line-height: 1;
+}
+
+/* BIOS logo — .bios-line'dan SONRA tanımlandı, font-size override eder */
+.bios-line--logo {
+  font-size: clamp(30px, 4.5vw, 62px) !important;
+  color: #ffd060 !important;
+  letter-spacing: 0.24em;
+  line-height: 1.1;
+  white-space: nowrap;
+  display: block;
+  text-shadow: 0 0 24px rgba(255, 208, 96, 0.5);
+  margin-bottom: 4px;
+}
+.bios-line--logo-tag {
+  font-size: clamp(13px, 1.7vw, 20px) !important;
+  color: rgba(255, 176, 0, 0.65) !important;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  white-space: nowrap;
+  display: block;
+}
+
+/* BIOS logo — mobile override (must come after base rule above) */
+@media (max-width: 768px) {
+  .bios-line--logo {
+    font-size: clamp(22px, 6.2vw, 32px) !important;
+    letter-spacing: 0.07em;
+  }
+  .bios-line--logo-tag {
+    font-size: clamp(10px, 3vw, 14px) !important;
+    letter-spacing: 0.04em;
+  }
+}
+
+.bl-label { color: #ffb000; }
+
+.bl-ok {
+  color: #ffe566;
+  text-shadow: 0 0 10px rgba(255, 229, 102, 0.50);
+}
+
+/* Final big lines */
+.bios-line--access {
+  font-size: clamp(24px, 3.4vw, 42px);
+  color: #fff8e0;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+  text-shadow: 0 0 20px rgba(255, 220, 80, 0.35);
+}
+
+.bios-line--welcome {
+  font-size: clamp(22px, 3vw, 36px);
+  color: #ffd060;
+  letter-spacing: 0.04em;
+}
+
+/* "ENTERING THE DROME..." blinking line */
+.bios-line--enter {
+  font-size: clamp(18px, 2.4vw, 29px);
+  color: #fff0cc;
+  margin-top: 2px;
+  letter-spacing: 0.03em;
+}
+
+.bios-line--enter.is-blinking {
+  animation: biosStartBlink 0.42s step-end infinite;
+}
+
+.bios-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: #ffb000;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: biosCursorBlink 0.5s step-end infinite;
+}
+
+@keyframes biosCursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes biosStartBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ================================================================
+   CRT INNER STROKE — thin line tracing the barrel window edge
+   SVG path element populated by inline script + tv-overlay.js
+   z-index: 9951 — just above page-tv-frame (9950)
+   ================================================================ */
+
+.page-tv-stroke {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10002;
+  pointer-events: none;
+  overflow: visible;
+}
+
+@media (max-width: 600px) {
+  .tv-bios { padding: clamp(40px, 8vw, 56px) clamp(16px, 4vw, 24px) clamp(40px, 8vw, 56px); }
+  .bios-line          { font-size: clamp(12px, 3.6vw, 17px); }
+  .bios-line--header  { font-size: clamp(14px, 4.2vw, 20px); }
+  .bios-line--section { font-size: clamp(13px, 3.8vw, 18px); }
+  .bios-line--access  { font-size: clamp(17px, 5.2vw, 26px); }
+  .bios-line--welcome { font-size: clamp(15px, 4.6vw, 22px); }
+  .bios-line--enter   { font-size: clamp(13px, 4vw, 18px); }
+}
+}
