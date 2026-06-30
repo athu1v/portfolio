@@ -298,8 +298,11 @@ a.nav-left-text:hover { color: #111; }
 .portrait-frame {
   position: relative;
   height: 100%;
+width: 1500px;
 }
-.portrait-base {
+.portrait-base,
+.portrait-illustration {
+  width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: bottom center;
